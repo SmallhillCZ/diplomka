@@ -33,7 +33,7 @@ const bigquery = new BigQuery({
 async function main(){
   
   console.log("=== Preparing " + tmpDir);
-  await spawns(["rm -f ./*"/*,"chmod +x ../csv-merge.sh"*/],spawnsOptions);
+  await spawns(["rm -f ./*"],spawnsOptions);
   
   console.log("=== Downloading source tables list");
   const cedrPageHTML = await request.get("http://cedr.mfcr.cz/cedr3internetv419/OpenData/OpenDataDumpPage.aspx");
