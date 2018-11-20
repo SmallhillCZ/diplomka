@@ -1,0 +1,13 @@
+#credentials
+keys
+
+#dependecies
+node_modules
+
+#data
+data/cedr/*
+data/donations/*
+tmp/*
+
+#keep dir structure
+!/**/.gitkeep
