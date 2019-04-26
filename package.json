@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "scripts": {
-    "download": "node download.js",
+  "scripts": {    
     "csv-merger": "csv-merger"
   },
   "author": "",

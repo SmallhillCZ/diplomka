@@ -1,12 +1,12 @@
 #credentials
-keys/**/*.json
+upload/keys/**/*.json
 
 #dependecies
 node_modules
 
 #data
-data/**/*.csv
-tmp/*
+upload/data/**/*.csv
+upload/tmp
 
 #keep dir structure
 !/**/.gitkeep

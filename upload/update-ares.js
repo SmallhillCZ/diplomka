@@ -12,8 +12,8 @@ const upload = true;
 const aresSrc = "https://wwwinfo.mfcr.cz/ares/ares_vreo_all.tar.gz";
 const ares2csv = "../lib/kokes-od/data/ares/bulk/targz_to_csv.py";
 const pythonPath = "/opt/rh/rh-python36/root/usr/bin/python";
-const tmpDir = "./tmp";
-const dataDir = "./data/ares";
+const tmpDir = path.join(__dirname,"tmp");
+const dataDir = path.join(__dirname,"data/ares");
 
 /* set up libraries */
 const spawnsOptions = {stdio:"inherit",cwd:tmpDir};
