@@ -94,14 +94,16 @@ async function main() {
     await downloadStream;
     process.stdout.write("= Downloading 100%\r\n");
 
-    console.log("= Extracting");
+    process.stdout.write("= Extracting\r");
     await new Promise((resolve, reject) => {
       const extractStream = extractFull(path.join(tmpDir, "download.7z"), tmpDir, {
         $bin: sevenBin.path7za
       })
       extractStream.on('end', resolve);
       extractStream.on('error', reject);
+      extractStream.on('progress', progress => process.stdout.write(`= Extracting ${progress.percent}%\r`));
     });
+    process.stdout.write("= Extracting 100%\r\n");
 
     const extractedFiles = await fs.readdir(tmpDir);
 
