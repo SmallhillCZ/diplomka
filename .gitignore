@@ -1,12 +1,11 @@
 #credentials
-keys
+keys/**/*.json
 
 #dependecies
 node_modules
 
 #data
-data/cedr/*
-data/donations/*
+data/**/*.csv
 tmp/*
 
 #keep dir structure

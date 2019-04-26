@@ -7,26 +7,24 @@ const fs = require("fs-extra");
 const path = require("path");
 const csvMerger = require('csv-merger');
 
-const key = require("./keys/bigquery-uploader.json"); 
 /**
  * TODO(developer): Uncomment the following lines before running the sample.
  */
-const projectId = key.project_id;
 const tmpDir = "./tmp";
 const dataDir = "./data/cedr";
 
-const spawnsOptions = {stdio:"inherit",cwd:tmpDir};
+const spawnsOptions = {stdio:"ignore",cwd:tmpDir};
 
 const csvSchema = {};
 
 const dry = false;
 const skipFiles = 0;
 const numFiles = 0;
-const overwrite = false;
+const overwrite = true;
 
 // Creates a client
 const bigquery = new BigQuery({
-  projectId: projectId,
+  projectId: require("../keys/bigquery-uploader.json").project_id,
   keyFilename: "./keys/bigquery-uploader.json"
 });
 
@@ -110,7 +108,12 @@ async function main(){
     
     if(!dry){
       console.log("= Launching the load job");
-      const [job] = await table.load(savedFile,{skipLeadingRows:1,maxBadRecords:5});
+      const loadConfig = {
+        skipLeadingRows:1,
+        maxBadRecords:5,
+        writeDisposition: "WRITE_TRUNCATE"
+      };
+      const [job] = await table.load(savedFile,loadConfig);
 
       const errors = job.status.errors;
       if (errors && errors.length > 0) {

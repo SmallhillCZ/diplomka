@@ -6,14 +6,14 @@ const key = require("./keys/bigquery-uploader.json");
  * TODO(developer): Uncomment the following lines before running the sample.
  */
 const projectId = key.project_id;
-const dataFile = "./data/donations/political_donations.csv";
+const dataFile = "../data/donations/political_donations.csv";
 
 const dry = false;
 
 // Creates a client
 const bigquery = new BigQuery({
   projectId: projectId,
-  keyFilename: "./keys/bigquery-uploader.json"
+  keyFilename: "../keys/bigquery-uploader.json"
 });
 
 async function main(){
