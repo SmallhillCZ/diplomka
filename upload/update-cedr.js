@@ -2,16 +2,15 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const cheerio = require("cheerio");
 const request = require("request-promise-native");
-const spawns = require("spawns-promise");
+const csvMerger = require("csv-merger");
 const fs = require("fs-extra");
 const path = require("path");
+const download = require("download");
+const sevenBin = require('7zip-bin');
+const { extractFull } = require('node-7z')
 
 const tmpDir = path.join(__dirname, "tmp");
-const dataDir = path.join(__dirname, "data/ares");
-
-const spawnsOptions = { stdio: "ignore", cwd: tmpDir };
-
-const csvSchema = {};
+const dataDir = path.join(__dirname, "data/cedr");
 
 const dry = false;
 const skipFiles = 0;
@@ -22,12 +21,13 @@ const maxBadRecords = 100;
 // Creates a client
 const bigquery = new BigQuery({
   projectId: require("./keys/bigquery-uploader.json").project_id,
-  keyFilename: path.join(__dirname,"keys/bigquery-uploader.json")
+  keyFilename: path.join(__dirname, "keys/bigquery-uploader.json")
 });
 
 async function main() {
 
   console.log("=== Preparing " + tmpDir);
+  await fs.remove(tmpDir);
   await fs.ensureDir(tmpDir);
 
   console.log("=== Downloading source tables list");
@@ -84,8 +84,24 @@ async function main() {
       continue;
     }
 
-    console.log("= Downloading and extracting");
-    await spawns([`wget -O download.7z ${srcFile.url} --no-check-certificate`, "7za x download.7z"], spawnsOptions);
+    process.stdout.write("= Downloading\r");
+    const downloadStream = download(srcFile.url, tmpDir, {
+      rejectUnauthorized: false,
+      requestCert: true,
+      filename: "download.7z"
+    });
+    downloadStream.on('downloadProgress', progress => process.stdout.write(`= Downloading ${Math.round(progress.percent * 100)}%\r`));
+    await downloadStream;
+    process.stdout.write("= Downloading 100%\r\n");
+
+    console.log("= Extracting");
+    await new Promise((resolve, reject) => {
+      const extractStream = extractFull(path.join(tmpDir, "download.7z"), tmpDir, {
+        $bin: sevenBin.path7za
+      })
+      extractStream.on('end', resolve);
+      extractStream.on('error', reject);
+    });
 
     const extractedFiles = await fs.readdir(tmpDir);
 
@@ -94,7 +110,11 @@ async function main() {
 
     console.log(`= Combining ${csvFiles.length} CSV files`);
     const mergedFile = path.join(tmpDir, "merged.csv");
-    await spawns([`npm run csv-merger -- -o ${mergedFile} ${csvFiles.map(file => path.join(tmpDir, file)).join(" ")}`], spawnsOptions);    
+    const mergeOptions = {
+      outputPath: mergedFile,
+      writeOutput: true
+    };
+    await csvMerger.merge(csvFiles.map(file => path.join(tmpDir, file)), mergeOptions);
 
     const savedFile = path.join(dataDir, srcFile.name + ".csv");
     if (!dry) {
