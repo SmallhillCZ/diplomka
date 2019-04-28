@@ -12,7 +12,7 @@ const { extractFull } = require('node-7z')
 const tmpDir = path.join(__dirname, "tmp");
 const dataDir = path.join(__dirname, "data/cedr");
 
-const dry = false;
+const dry = true;
 const skipFiles = 0;
 const numFiles = 0;
 const overwrite = true;
@@ -119,10 +119,9 @@ async function main() {
     await csvMerger.merge(csvFiles.map(file => path.join(tmpDir, file)), mergeOptions);
 
     const savedFile = path.join(dataDir, srcFile.name + ".csv");
-    if (!dry) {
-      console.log("= Saving to " + savedFile);
-      await fs.move(mergedFile, savedFile, { overwrite: true });
-    }
+  
+    console.log("= Saving to " + savedFile);
+    await fs.move(mergedFile, savedFile, { overwrite: true });
 
     if (!dry) {
       console.log("= Launching the load job");
