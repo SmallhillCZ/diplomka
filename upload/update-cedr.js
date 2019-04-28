@@ -97,7 +97,8 @@ async function main() {
     process.stdout.write("= Extracting\r");
     await new Promise((resolve, reject) => {
       const extractStream = extractFull(path.join(tmpDir, "download.7z"), tmpDir, {
-        $bin: sevenBin.path7za
+        $bin: sevenBin.path7za,
+        $progress: true
       })
       extractStream.on('end', resolve);
       extractStream.on('error', reject);
