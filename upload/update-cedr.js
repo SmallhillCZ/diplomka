@@ -120,7 +120,7 @@ async function main() {
     await csvMerger.merge(csvFiles.map(file => path.join(tmpDir, file)), mergeOptions);
 
     const savedFile = path.join(dataDir, srcFile.name + ".csv");
-  
+
     console.log("= Saving to " + savedFile);
     await fs.move(mergedFile, savedFile, { overwrite: true });
 
@@ -142,6 +142,9 @@ async function main() {
         console.log("= Job succeeded :)");
       }
 
+    }
+    else {
+      console.log("= Not uploading (DRY RUN)");
     }
 
 
