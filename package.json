@@ -1,14 +1,13 @@
 {
   "name": "diplomka",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "csv-merger": "csv-merger",
     "update-cedr": "node upload/update-cedr.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "7zip-bin": "^4.1.0",
     "@google-cloud/bigquery": "^2.0.1",
@@ -18,8 +17,16 @@
     "fs-extra": "^7.0.1",
     "node-7z": "^1.1.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "rmrf": "^2.0.0",
-    "spawns-promise": "github:SmallhillCZ/node-spawns-promise"
-  }
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smallhillcz/diplomka.git"
+  },
+  "bugs": {
+    "url": "https://github.com/smallhillcz/diplomka/issues"
+  },
+  "homepage": "https://github.com/smallhillcz/diplomka#readme",
+  "description": ""
 }
