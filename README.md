@@ -9,7 +9,7 @@ This is a repository to provide scripts that enable replication of my master the
 
 ## Loading data from CEDR to Google BigQuery
 
-### 1) Dependencies
+### 1) Install Dependencies
 
 In order for the scripts to work you muste install the NodeJS and its dependencies.
 
