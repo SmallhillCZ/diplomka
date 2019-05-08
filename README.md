@@ -39,9 +39,9 @@ Just use the SQLs in the BigQuery interface and save the output to a table
 
 ## Running things in Stata
 
-Use Stata 15. 
-Launch the file main.do
-The output data will be stored in a file `results.dta` which can be read by Stata.
+- Use Stata 15. 
+- Launch the file main.do
+- The output data will be stored in a file `results.dta` which can be read by Stata.
 
 # Contributing
 
