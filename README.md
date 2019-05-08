@@ -2,6 +2,8 @@
 
 This is a repository to provide scripts that enable replication of my master thesis.
 
+License: GNU General Public License, version 3
+
 ## Contents
  - `upload` - scripts to load data from the Czech Grant Registry (CEDR) to Google BigQuery
  - `sql` - scripts to create tables in Google BigQuery
