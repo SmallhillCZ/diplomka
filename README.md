@@ -45,4 +45,4 @@ The output data will be stored in a file `results.dta` which can be read by Stat
 
 # Contributing
 
-Please feel free to fork this repository contribute by filing a pull request.
+Please feel free to fork this repository and contribute by filing a pull request.
