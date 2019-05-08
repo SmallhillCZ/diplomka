@@ -3,9 +3,9 @@
 This is a repository to provide scripts that enable replication of my master thesis.
 
 ## Contents
- - upload - scripts to load data from the Czech Grant Registry (CEDR) to Google BigQuery
- - sql - scripts to create tables in Google BigQuery
- - stata - scripts to run Propensity Score Matching model over the data in Stata 
+ - `upload` - scripts to load data from the Czech Grant Registry (CEDR) to Google BigQuery
+ - `sql` - scripts to create tables in Google BigQuery
+ - `stata` - scripts to run Propensity Score Matching model over the data in Stata 
 
 ## Loading data from CEDR to Google BigQuery
 
