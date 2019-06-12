@@ -39,6 +39,10 @@ You can set it to run dry (i.e. run, but not modify dta in BigQuery), overwrite 
 
 Just use the SQLs in the BigQuery interface and save the output to a table
 
+## Other used datasets
+
+Unfortunately both firm information dataset and political donation dataset are neither published online, nor licensed to be appendable to this repository and you will have to get your own data.
+
 ## Running things in Stata
 
 - Use Stata 15. 
