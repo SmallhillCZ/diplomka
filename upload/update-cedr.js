@@ -7,16 +7,17 @@ const fs = require("fs-extra");
 const path = require("path");
 const download = require("download");
 const sevenBin = require('7zip-bin');
-const { extractFull } = require('node-7z')
+const { extractFull } = require('node-7z');
 
 const tmpDir = path.join(__dirname, "tmp");
 const dataDir = path.join(__dirname, "data/cedr");
 
-const dry = true;
+const dry = false;
 const skipFiles = 0;
 const numFiles = 0;
 const overwrite = true;
 const maxBadRecords = 100;
+const importedTable = process.argv[2];
 
 // Creates a client
 const bigquery = new BigQuery({
@@ -25,6 +26,8 @@ const bigquery = new BigQuery({
 });
 
 async function main() {
+  
+  console.log(importedTable ? "Importing only table " + importedTable : "Importing all present tables");
 
   console.log("=== Preparing " + tmpDir);
   await fs.remove(tmpDir);
@@ -55,7 +58,7 @@ async function main() {
 
   const [tables] = await dataset.getTables();
 
-  const tableNames = tables.map(table => table.id);
+  const tableNames = importedTable ? [importedTable] : tables.map(table => table.id);  
 
   var c = 0;
 
@@ -131,16 +134,14 @@ async function main() {
         maxBadRecords: maxBadRecords,
         writeDisposition: "WRITE_TRUNCATE"
       };
-      const [job] = await table.load(savedFile, loadConfig);
-
-      const errors = job.status.errors;
+      const [apiResponse] = await table.load(savedFile, loadConfig);
+      
+      const errors = apiResponse.status.errors;
       if (errors && errors.length > 0) {
-        console.error("= Job failed :( Errors:");
         errors.forEach(error => console.error(error.message));
       }
-      else {
-        console.log("= Job succeeded :)");
-      }
+      
+      console.log(`= Job ${apiResponse.status.state}`);      
 
     }
     else {
